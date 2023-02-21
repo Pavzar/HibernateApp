@@ -7,12 +7,9 @@ import pav.zar.hibernateapp.model.Person;
 
 /**
  * Hello world!
- *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
+public class App {
+    public static void main(String[] args) {
         Configuration configuration = new Configuration().addAnnotatedClass(Person.class);
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
@@ -21,15 +18,22 @@ public class App
         try {
             session.beginTransaction();
 
-            Person person1 = new Person("Test1", 23);
-            Person person2 = new Person("Test2", 33);
-            Person person3 = new Person("Test3", 44);
+            Person person = new Person("Some name", 30);
+            session.save(person);
 
-            session.save(person1);
-            session.save(person2);
-            session.save(person3);
+
+
+            //update
+//          person.setName("New name");
+
+            //delete
+//          session.delete(person);
 
             session.getTransaction().commit();
+
+            System.out.println(person.getId());
+
+
         } finally {
             sessionFactory.close();
         }
