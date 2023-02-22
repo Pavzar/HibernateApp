@@ -6,6 +6,8 @@ import org.hibernate.cfg.Configuration;
 import pav.zar.hibernateapp.model.Item;
 import pav.zar.hibernateapp.model.Person;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -23,11 +25,19 @@ public class App {
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 2);
-            Item newItem = new Item("Item from Hibernate", person);
+//            Person person = session.get(Person.class, 2);
+//            Item newItem = new Item("Item from Hibernate", person);
+//
+//            person.getItems().add(newItem);
+//
+//            session.save(newItem);
 
-            person.getItems().add(newItem);
+            Person person = new Person("Test person", 30);
+            Item newItem = new Item("Item from Hibernate 2", person);
 
+            person.setItems(new ArrayList<Item>(Collections.singleton(newItem)));
+
+            session.save(person);
             session.save(newItem);
 
             session.getTransaction().commit();
