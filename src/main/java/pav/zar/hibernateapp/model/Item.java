@@ -21,6 +21,11 @@ public class Item {
     public Item() {
     }
 
+    public Item(String itemName, Person owner) {
+        this.itemName = itemName;
+        this.owner = owner;
+    }
+
     public int getId() {
         return id;
     }
