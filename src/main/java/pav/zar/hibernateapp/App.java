@@ -25,13 +25,18 @@ public class App {
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 2);
+            Person person = session.get(Person.class, 4);
+
+            Item item = session.get(Item.class, 1);
+
+            //correct cache
+            item.getOwner().getItems().remove(item);
 
             //sql
-            session.remove(person);
+            item.setOwner(person);
 
-            //make sure hibernate's cache is correct
-            person.getItems().forEach(i -> i.setOwner(null));
+            //correct cache
+            person.getItems().add(item);
 
             session.getTransaction().commit();
 
