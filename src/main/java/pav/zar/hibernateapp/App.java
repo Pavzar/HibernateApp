@@ -25,20 +25,17 @@ public class App {
         try {
             session.beginTransaction();
 
-//            Person person = session.get(Person.class, 2);
-//            Item newItem = new Item("Item from Hibernate", person);
-//
-//            person.getItems().add(newItem);
-//
-//            session.save(newItem);
+            Person person = session.get(Person.class, 3);
 
-            Person person = new Person("Test person", 30);
-            Item newItem = new Item("Item from Hibernate 2", person);
+            List<Item> items = person.getItems();
 
-            person.setItems(new ArrayList<Item>(Collections.singleton(newItem)));
+            //sql
+            for(Item item: items){
+                session.remove(item);
+            }
 
-            session.save(person);
-            session.save(newItem);
+            //it is necessary to be sure everything is correct in Hibernate's cache
+            person.getItems().clear();
 
             session.getTransaction().commit();
 
