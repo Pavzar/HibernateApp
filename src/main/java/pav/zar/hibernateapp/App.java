@@ -25,18 +25,12 @@ public class App {
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 4);
+            Person person = new Person("Test cascading", 30);
 
-            Item item = session.get(Item.class, 1);
+            Item item = new Item("Test cascading item", person);
+            person.setItems(new ArrayList<>(Collections.singletonList(item)));
 
-            //correct cache
-            item.getOwner().getItems().remove(item);
-
-            //sql
-            item.setOwner(person);
-
-            //correct cache
-            person.getItems().add(item);
+            session.persist(person);
 
             session.getTransaction().commit();
 
