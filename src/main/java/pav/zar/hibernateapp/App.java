@@ -25,17 +25,43 @@ public class App {
         try {
             session.beginTransaction();
 
-            Person person = new Person("Test person", 33);
-            Passport passport = new Passport(3213213);
+//            Person person = new Person("Test person", 33);
+//            Passport passport = new Passport(3213213);
+//
+//            person.setPassport(passport);
+//
+//            session.save(person);
 
-            person.setPassport(passport);
+//            Person person = session.get(Person.class, 7);
+//            System.out.println(person.getPassport().getPassportNumber());
+//            person.getPassport().setPassportNumber(5555554);
+//            System.out.println(person.getPassport().getPassportNumber());
 
-            session.save(person);
+            Person person = session.get(Person.class, 7);
 
+            session.remove(person);
             session.getTransaction().commit();
+
 
         } finally {
             sessionFactory.close();
         }
+
+//        configuration = new Configuration().addAnnotatedClass(Person.class).addAnnotatedClass(Passport.class);
+//        sessionFactory = configuration.buildSessionFactory();
+//        session = sessionFactory.getCurrentSession();
+//
+//        try {
+//            session.beginTransaction();
+//
+//            Passport passport = session.get(Passport.class,6);
+//            System.out.println(passport.getPerson().getName());
+//
+//            session.getTransaction().commit();
+//        } finally {
+//            sessionFactory.close();
+//        }
+
+
     }
 }
