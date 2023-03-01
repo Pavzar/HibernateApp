@@ -21,14 +21,18 @@ public class App {
             Session session = sessionFactory.getCurrentSession();
             session.beginTransaction();
 
+            //Eager
             Person person = session.get(Person.class, 1);
+
             System.out.println("Got person");
 
-            //Lazy
+
+            System.out.println(person.getItems());
+            session.getTransaction().commit();
+
+            //still has items even session is closed
             System.out.println(person.getItems());
 
-
-            session.getTransaction().commit();
         }
     }
 }
