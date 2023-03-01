@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import pav.zar.hibernateapp.model.*;
 
-
+import java.util.List;
 
 
 /**
@@ -32,14 +32,16 @@ public class App {
             session = sessionFactory.getCurrentSession();
             session.beginTransaction();
 
-            person = (Person) session.merge(person);
+//            person = (Person) session.merge(person);
 
-            Hibernate.initialize(person.getItems());
+//            Hibernate.initialize(person.getItems());
+            //HQL code
+            List<Item> items = session.createQuery("select i from Item i where i.owner.id =:personId", Item.class)
+                    .setParameter("personId", person.getId()).getResultList();
 
+            System.out.println(items);
             session.getTransaction().commit();
 
-            //works because related items were loaded
-            System.out.println(person.getItems());
 
         }
     }
