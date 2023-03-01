@@ -1,5 +1,6 @@
 package pav.zar.hibernateapp;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -21,16 +22,23 @@ public class App {
             Session session = sessionFactory.getCurrentSession();
             session.beginTransaction();
 
-            //Eager
             Person person = session.get(Person.class, 1);
-
             System.out.println("Got person");
 
+            session.getTransaction().commit();
+            System.out.println("closed session");
 
-            System.out.println(person.getItems());
+            //open a new session and transaction
+            session = sessionFactory.getCurrentSession();
+            session.beginTransaction();
+
+            person = (Person) session.merge(person);
+
+            Hibernate.initialize(person.getItems());
+
             session.getTransaction().commit();
 
-            //still has items even session is closed
+            //works because related items were loaded
             System.out.println(person.getItems());
 
         }
